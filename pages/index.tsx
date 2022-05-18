@@ -18,7 +18,7 @@ interface Props {
 	pokemons: Pokemon[]
 }
 
-const Home: NextPage<Props> = ({ pokemons }) => {
+const HomePage: NextPage<Props> = ({ pokemons }) => {
 	return (
 		<>
 			<MainLayout title='Lista de Pokémons'>
@@ -51,4 +51,4 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	return { props: { pokemons } }
 }
 
-export default Home
+export default HomePage

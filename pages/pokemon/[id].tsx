@@ -1,5 +1,3 @@
-// react
-
 // next
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 
@@ -14,7 +12,7 @@ import { pokeApi } from '../../api'
 
 // components
 import { MainLayout } from '../../components/layouts'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // utils
 import { localFavorites } from '../../utils'
@@ -24,37 +22,37 @@ const styles = {
 	pokemonCardHeader: {
 		display: 'flex',
 		justifyContent: 'space-between',
-		flexWrap: 'wrap',
-	},
+		flexWrap: 'wrap'
+	}
 }
 
 interface Props {
 	pokemon: PokemonDetailResponse
 }
 
-export const PokemonPage: NextPage<Props> = ({ pokemon }) => {
-	console.log('oute of useEffect')
+export const PokemonDetailPage: NextPage<Props> = ({ pokemon }) => {
+	const { id, name, sprites } = pokemon
 
-	useEffect(() => {
-		console.log(localStorage.getItem('favorites'))
-	}, [])
+	const [isInFavorite, setIntisFavorite] = useState(
+		localFavorites.isPokemonInFavorites(id)
+	)
+
+	useEffect(() => {}, [])
 
 	const handleToggleFavorite = () => {
-		localFavorites.toggleFavorite(pokemon.name)
+		localFavorites.toggleFavorite(id)
+		setIntisFavorite(!isInFavorite)
 	}
 
 	return (
-		<MainLayout title={pokemon.name}>
+		<MainLayout title={name}>
 			<Grid.Container gap={2} justify='center' css={{ marginTop: '5px' }}>
 				<Grid xs={12} sm={4}>
 					<Card hoverable css={{ padding: '30px' }}>
 						<Card.Body>
 							<Card.Image
-								src={
-									pokemon.sprites.other?.dream_world.front_default ||
-									'no-imafe.png'
-								}
-								alt={pokemon.name}
+								src={sprites.other?.dream_world.front_default || 'no-imafe.png'}
+								alt={name}
 								width={'100%'}
 								height={'auto'}
 							/>
@@ -66,11 +64,15 @@ export const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 					<Card hoverable css={{ padding: '30px' }}>
 						<Card.Header css={styles.pokemonCardHeader}>
 							<Text h1 transform='capitalize'>
-								{pokemon.name}
+								{name}
 							</Text>
 
-							<Button color='gradient' ghost onClick={handleToggleFavorite}>
-								favorites
+							<Button
+								color='gradient'
+								ghost={!isInFavorite}
+								onClick={handleToggleFavorite}
+							>
+								{!isInFavorite ? 'add' : 'remove'} favorites
 							</Button>
 						</Card.Header>
 
@@ -79,20 +81,20 @@ export const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 
 							<Container display='flex' direction='row'>
 								<Image
-									src={pokemon.sprites.front_default}
-									alt={pokemon.name}
+									src={sprites.front_default}
+									alt={name}
 									width={100}
 									height={100}
 								/>
 								<Image
-									src={pokemon.sprites.back_default}
-									alt={pokemon.name}
+									src={sprites.back_default}
+									alt={name}
 									width={100}
 									height={100}
 								/>
 								<Image
-									src={pokemon.sprites.front_shiny}
-									alt={pokemon.name}
+									src={sprites.front_shiny}
+									alt={name}
 									width={100}
 									height={100}
 								/>
@@ -112,7 +114,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
 	return {
 		paths: paramList.map((id) => ({ params: { id } })),
-		fallback: false,
+		fallback: false
 	}
 }
 
@@ -123,4 +125,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 	return { props: { pokemon } }
 }
 
-export default PokemonPage
+export default PokemonDetailPage

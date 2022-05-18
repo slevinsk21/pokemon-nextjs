@@ -1,9 +1,13 @@
+// react
 import { FC } from 'react'
 
+// next
 import { useRouter } from 'next/router'
 
+// nextUI
 import { Grid, Card, Row, Text, Spacer } from '@nextui-org/react'
 
+// interfaces
 import { Pokemon } from '../../interfaces'
 
 interface Props {
@@ -13,7 +17,7 @@ interface Props {
 const styles = {
 	PokemonCard: {
 		with: '100%',
-		maxWidth: '340px',
+		maxWidth: '340px'
 	},
 	pokemonBadge: {
 		display: 'flex',
@@ -26,8 +30,8 @@ const styles = {
 		borderRadius: '100%',
 		maxHeight: '38px',
 		maxWidth: '38px',
-		padding: '12px',
-	},
+		padding: '12px'
+	}
 }
 export const PokemonCard: FC<Props> = ({ pokemon: { id, name, img } }) => {
 	const router = useRouter()

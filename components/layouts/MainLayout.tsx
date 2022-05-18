@@ -29,7 +29,7 @@ export const MainLayout: FC<Props> = ({ children, title }) => {
 					padding: '0 12px',
 					maxWidth: '1175px',
 					margin: '0 auto',
-					minHeight: '100vh',
+					minHeight: '100vh'
 				}}
 			>
 				{children}
