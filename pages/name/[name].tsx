@@ -30,7 +30,7 @@ interface Props {
 	pokemon: PokemonDetailResponse
 }
 
-export const PokemonDetailPage: NextPage<Props> = ({ pokemon }) => {
+export const PokemonDetailByNamePage: NextPage<Props> = ({ pokemon }) => {
 	const { id, name, sprites } = pokemon
 
 	const [isInFavorite, setIntisFavorite] = useState(
@@ -108,19 +108,19 @@ export const PokemonDetailPage: NextPage<Props> = ({ pokemon }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
-	const paramList = Array(151)
-		.fill(0)
-		.map((_, i) => `${i + 1}`)
+
+    const { data } = await pokeApi('pokemon?limit=151')
+    const pokemonsByName: string[] = data.results.map((pokemon: { name: string }) => pokemon.name)
 
 	return {
-		paths: paramList.map((id) => ({ params: { id } })),
+		paths: pokemonsByName.map((name) => ({ params: { name } })),
 		fallback: false
 	}
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const { id } = params as { id: string }
-	const { data } = await pokeApi(`pokemon/${id}`)
+	const { name } = params as { name: string }
+	const { data } = await pokeApi(`pokemon/${name}`)
 	const pokemon  = {
 		id: data.id,
 		name: data.name,
@@ -130,4 +130,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 	return { props: { pokemon } }
 }
 
-export default PokemonDetailPage
+export default PokemonDetailByNamePage

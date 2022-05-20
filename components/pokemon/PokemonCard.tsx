@@ -17,19 +17,23 @@ interface Props {
 const styles = {
 	PokemonCard: {
 		with: '100%',
-		maxWidth: '340px'
+		maxWidth: '340px',
+	},
+	pokemonImg: {
+		maxWidth: '48px',
+		height: 'auto',
 	},
 	pokemonBadge: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		color: '#333',
-		fontSize: '12px',
-		fontWeight: 700,
+		fontSize: '9px',
+		fontWeight: 800,
 		background: 'aquamarine',
 		borderRadius: '100%',
-		maxHeight: '38px',
-		maxWidth: '38px',
+		maxHeight: '26px',
+		maxWidth: '26px',
 		padding: '12px'
 	}
 }
@@ -48,19 +52,16 @@ export const PokemonCard: FC<Props> = ({ pokemon: { id, name, img } }) => {
 					css={styles.PokemonCard}
 				>
 					<Card.Body>
-						<Row align='center'>
-							<Card.Image src={img} width={40} height={40} />
-							<Spacer />
-							<Row justify='flex-start' align='center'>
+							<Row justify='center' align='center'>
 								<Text small css={styles.pokemonBadge}>
-									#{id}
+									{id}
 								</Text>
 								<Spacer />
-								<Text transform='capitalize' small>
+								<Text transform='capitalize' >
 									{name}
 								</Text>
+							<Card.Image src={img} css={styles.pokemonImg} />
 							</Row>
-						</Row>
 					</Card.Body>
 				</Card>
 			</Grid>
