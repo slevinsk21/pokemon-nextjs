@@ -40,7 +40,7 @@ const styles = {
 export const PokemonCard: FC<Props> = ({ pokemon: { id, name, img } }) => {
 	const router = useRouter()
 
-	const handleClick = () => router.push(`/pokemon/${id}`)
+	const handleClick = () => router.push(`/name/${name}`)
 
 	return (
 		<>

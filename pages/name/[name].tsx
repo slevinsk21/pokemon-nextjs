@@ -15,7 +15,7 @@ import { MainLayout } from '../../components/layouts'
 import { useEffect, useState } from 'react'
 
 // utils
-import { localFavorites } from '../../utils'
+import { getPokemonInfo, localFavorites } from '../../utils'
 
 // styles
 const styles = {
@@ -107,7 +107,7 @@ export const PokemonDetailByNamePage: NextPage<Props> = ({ pokemon }) => {
 	)
 }
 
-export const getStaticPaths: GetStaticPaths = async (ctx) => {
+export const getStaticPaths: GetStaticPaths = async () => {
 
     const { data } = await pokeApi('pokemon?limit=151')
     const pokemonsByName: string[] = data.results.map((pokemon: { name: string }) => pokemon.name)
@@ -119,15 +119,10 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const { name } = params as { name: string }
-	const { data } = await pokeApi(`pokemon/${name}`)
-	const pokemon  = {
-		id: data.id,
-		name: data.name,
-		sprites: data.sprites
-	}
 
-	return { props: { pokemon } }
+	const { name } = params as { name: string }
+
+	return { props: { pokemon: await getPokemonInfo(name) } }
 }
 
 export default PokemonDetailByNamePage
